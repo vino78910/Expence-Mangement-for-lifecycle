@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Expense {
+  id          String   @id @default(cuid())
+  amount      Float
+  group       String // Essentials | Lifestyle | Health | Education/Work
+  category    String // e.g. Food & Groceries, Transport...
+  paymentMode String // Cash | UPI | Card | Other
+  note        String?
+  date        DateTime @default(now())
+
+  @@index([date])
+}
+
+model Budget {
+  id        String   @id @default(cuid())
+  month     String @unique // "2026-10"
+  amount    Float
+  updatedAt DateTime @updatedAt
+}
